@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/radial_gradient_background"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="16dp"
+    tools:context=".AppointmentDetailsActivity">
+
+    <ImageButton
+        android:id="@+id/btnBackFromDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back_arrow"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Go back"
+        android:padding="8dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/tvScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mi consulta:"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_below="@id/btnBackFromDetails"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:id="@+id/doctor_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tvScreenTitle"
+        android:background="@drawable/rounded_corners_background"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:id="@+id/tvDoctorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dra. Alejandra Guzmán"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvDoctorSpecialty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Especialista en diagnóstico y tratamiento de padecimientos comunes"
+            android:textColor="#666666"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:text="Estudios: " />
+        <TextView
+            android:id="@+id/tvDoctorStudies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Médico Cirujano en la UANL"
+            android:textColor="#666666"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:text="Años Ejercidos: " />
+        <TextView
+            android:id="@+id/tvDoctorExperience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 años"
+            android:textColor="#666666"
+            android:layout_marginBottom="4dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/date_time_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/doctor_info_container"
+        android:background="@drawable/rounded_corners_background"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha y hora:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/tvSelectedDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="April 2025 >"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="7"
+            android:rowCount="5"
+            android:layout_marginBottom="16dp"
+            android:gravity="center">
+
+            <TextView style="@style/CalendarDayHeader" android:text="SUN"/>
+            <TextView style="@style/CalendarDayHeader" android:text="MON"/>
+            <TextView style="@style/CalendarDayHeader" android:text="TUE"/>
+            <TextView style="@style/CalendarDayHeader" android:text="WED"/>
+            <TextView style="@style/CalendarDayHeader" android:text="THU"/>
+            <TextView style="@style/CalendarDayHeader" android:text="FRI"/>
+            <TextView style="@style/CalendarDayHeader" android:text="SAT"/>
+
+            <TextView style="@style/CalendarDay" android:text="1" />
+            <TextView style="@style/CalendarDay" android:text="2" />
+            <TextView style="@style/CalendarDay" android:text="3" />
+            <TextView style="@style/CalendarDay" android:text="4" />
+            <TextView style="@style/CalendarDay" android:text="5" />
+            <TextView style="@style/CalendarDay" android:text="6" />
+            <TextView style="@style/CalendarDay" android:text="7" />
+            <TextView style="@style/CalendarDay" android:text="8" />
+            <TextView style="@style/CalendarDay" android:text="9" />
+            <TextView style="@style/CalendarDay" android:text="10" />
+            <TextView style="@style/CalendarDay" android:text="11" />
+            <TextView style="@style/CalendarDay" android:text="12" />
+            <TextView style="@style/CalendarDay" android:text="13" />
+            <TextView style="@style/CalendarDay" android:text="14" />
+            <TextView style="@style/CalendarDay" android:text="15" />
+            <TextView style="@style/CalendarDay" android:text="16" />
+            <TextView style="@style/CalendarDay" android:text="17" />
+            <TextView style="@style/CalendarDay" android:text="18" />
+            <TextView style="@style/CalendarDay" android:text="19" />
+            <TextView style="@style/CalendarDay" android:text="20"
+                android:background="@drawable/rounded_button_accent"
+                android:textColor="@android:color/white" />
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/tvSelectedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9:40 AM"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_corners_background"
+            android:padding="8dp"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/appointment_details_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rounded_corners_background"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvDetailsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detalles de la consulta:"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Fecha: 20 de Abril del 2025\n- Hora: 9:40 am (Duración máx.: 45 min)\n- Consultorio: Zoom\n- Cobro por cita: 200 PESOS MEXICANOS (se cobra en la cita)"
+            android:textColor="#666666"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btnSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¡Agendar!"
+            android:backgroundTint="#333333"
+            android:textColor="@color/white"
+            android:minHeight="48dp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/radial_gradient_background"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="16dp">
+
+    <LinearLayout
+        android:id="@+id/top_header_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONSULT.ME"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Consulting has never been easier"
+            android:textColor="#555555"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/banner_image"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/doctors"
+        android:background="@drawable/rounded_corners_background"
+        android:layout_below="@id/top_header_section"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="Banner de Consultas" />
+
+    <TextView
+        android:id="@+id/my_consultations_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mis Consultas"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_below="@id/banner_image"
+        android:layout_marginBottom="8dp"/>
+
+    <ScrollView
+        android:id="@+id/consultations_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/rounded_corners_background"
+        android:padding="8dp"
+        android:layout_below="@id/my_consultations_title"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:id="@+id/consultations_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No hay consultas agendadas por el momento."
+                android:gravity="center"
+                android:textColor="#666666"
+                android:padding="16dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Buscar por especialidad..."
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:layout_below="@id/consultations_scroll_view"
+        android:layout_marginBottom="24dp"
+        android:textColorHint="#AAAAAA"
+        android:textColor="#333333"
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/categories_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Categorías Populares"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_below="@id/search_bar"
+        android:layout_marginBottom="16dp"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:layout_below="@id/categories_title"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/btn_medical_guidance"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:text="Guianza Médica"
+            android:drawableTop="@drawable/ic_medicina"
+            android:backgroundTint="#AECBCF"
+            android:textColor="#333333"
+            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:minHeight="90dp"/>
+
+        <Button
+            android:id="@+id/btn_nutrition"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:text="Nutrición"
+            android:drawableTop="@drawable/ic_nutricion"
+            android:backgroundTint="#AECBCF"
+            android:textColor="#333333"
+            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:minHeight="90dp"/>
+
+        <Button
+            android:id="@+id/btn_psychology"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:text="Psicología"
+            android:drawableTop="@drawable/ic_psicologo"
+            android:backgroundTint="#AECBCF"
+            android:textColor="#333333"
+            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:minHeight="90dp"/>
+
+        <Button
+            android:id="@+id/btn_coaching"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:text="Coaching"
+            android:drawableTop="@drawable/ic_coach"
+            android:backgroundTint="#AECBCF"
+            android:textColor="#333333"
+            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:minHeight="90dp"/>
+
+        <Button
+            android:id="@+id/btn_profile"
+            android:layout_width="0dp"
+            android:layout_columnWeight="2"
+            android:layout_height="wrap_content"
+            android:text="Mi Perfil"
+            android:drawableTop="@drawable/ic_profile"
+            android:backgroundTint="#AECBCF"
+            android:textColor="#333333"
+            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_columnSpan="2"
+            android:minHeight="90dp"/>
+    </GridLayout>
+
+</RelativeLayout>
