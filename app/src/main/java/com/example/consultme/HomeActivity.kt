@@ -26,15 +26,17 @@ class HomeActivity : AppCompatActivity() {
 
         // Lógica para los otros botones de categoría
         btnNutrition.setOnClickListener {
-            val intent = Intent(this, DoctorListActivity::class.java)
+            val intent = Intent(this, NutritionActivity::class.java)
             startActivity(intent)
         }
+
         btnPsychology.setOnClickListener {
-            val intent = Intent(this, DoctorListActivity::class.java)
+            val intent = Intent(this, PsychologyActivity::class.java)
             startActivity(intent)
         }
+
         btnCoaching.setOnClickListener {
-            val intent = Intent(this, DoctorListActivity::class.java)
+            val intent = Intent(this, CoachingActivity::class.java)
             startActivity(intent)
         }
 

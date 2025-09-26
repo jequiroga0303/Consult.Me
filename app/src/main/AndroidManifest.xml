@@ -22,6 +22,10 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".DoctorListActivity" />
+        <activity android:name=".NutritionActivity" />
+        <activity android:name=".PsychologyActivity" />
+        <activity android:name=".CoachingActivity" />
+        <activity android:name=".AppointmentDetailsActivity" />
     </application>
 
 </manifest>

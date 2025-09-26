@@ -80,30 +80,17 @@
         </LinearLayout>
     </ScrollView>
 
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Buscar por especialidad..."
-        android:padding="12dp"
-        android:background="@drawable/edittext_background"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="8dp"
-        android:layout_below="@id/consultations_scroll_view"
-        android:layout_marginBottom="24dp"
-        android:textColorHint="#AAAAAA"
-        android:textColor="#333333"
-        android:singleLine="true"/>
+
 
     <TextView
         android:id="@+id/categories_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categorías Populares"
+        android:text="Nuestas Categorias"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#333333"
-        android:layout_below="@id/search_bar"
+        android:layout_below="@id/consultations_scroll_view"
         android:layout_marginBottom="16dp"/>
 
     <GridLayout
