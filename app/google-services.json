@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "625657755413",
+    "project_id": "consultme-d4f54",
+    "storage_bucket": "consultme-d4f54.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625657755413:android:f00c90ea6a57ae278a5b1c",
+        "android_client_info": {
+          "package_name": "com.example.consultme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6LmCjIlr8TWWuUZwTNuRy8Z4J7lEH1Ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

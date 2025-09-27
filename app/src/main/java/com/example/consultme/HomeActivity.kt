@@ -4,8 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : AppCompatActivity() {
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -45,5 +52,41 @@ class HomeActivity : AppCompatActivity() {
             // Por ahora, este botón no tiene una funcionalidad, pero podrías
             // añadir la navegación a una pantalla de perfil en el futuro.
         }
+        loadScheduledAppointments()
+    }
+    private fun loadScheduledAppointments() {
+        val consultationsContainer = findViewById<LinearLayout>(R.id.consultations_container)
+        consultationsContainer.removeAllViews()
+
+        val userId = auth.currentUser?.uid ?: return
+
+        db.collection("appointments")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    val noAppointmentsText = TextView(this).apply {
+                        text = "No hay consultas agendadas por el momento."
+                        gravity = android.view.Gravity.CENTER
+                        setTextColor(resources.getColor(R.color.black, null))
+                    }
+                    consultationsContainer.addView(noAppointmentsText)
+                } else {
+                    for (document in documents) {
+                        val doctorName = document.getString("doctorName")
+                        val date = document.getString("date")
+                        val time = document.getString("time")
+                        val appointmentText = TextView(this).apply {
+                            text = "Cita con $doctorName el $date a las $time"
+                            setPadding(16, 16, 16, 16)
+                            setTextColor(resources.getColor(R.color.black, null))
+                        }
+                        consultationsContainer.addView(appointmentText)
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                // Manejar error
+            }
     }
 }
