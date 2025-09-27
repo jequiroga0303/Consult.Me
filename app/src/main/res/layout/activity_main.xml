@@ -110,4 +110,14 @@
         </LinearLayout>
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/tvContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="¿Quieres convertirte en colaborador? Contactanos en consultme@gmail.com"
+        android:textColor="#333333"
+        android:textSize="14sp" />
 </RelativeLayout>

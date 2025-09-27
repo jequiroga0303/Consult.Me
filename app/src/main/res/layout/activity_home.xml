@@ -7,6 +7,16 @@
     android:paddingEnd="32dp"
     android:paddingTop="32dp"
     android:paddingBottom="16dp">
+    <ImageButton
+        android:id="@+id/btn_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_profile"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Perfil de usuario"
+        android:padding="8dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:id="@+id/top_header_section"
@@ -153,20 +163,6 @@
             android:layout_margin="8dp"
             android:minHeight="90dp"/>
 
-        <Button
-            android:id="@+id/btn_profile"
-            android:layout_width="0dp"
-            android:layout_columnWeight="2"
-            android:layout_height="wrap_content"
-            android:text="Mi Perfil"
-            android:drawableTop="@drawable/ic_profile"
-            android:backgroundTint="#AECBCF"
-            android:textColor="#333333"
-            android:padding="16dp"
-            android:layout_margin="8dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_columnSpan="2"
-            android:minHeight="90dp"/>
     </GridLayout>
 
 </RelativeLayout>

@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Consult.Me</string>
+    <string name="terms_and_conditions">
+        <![CDATA[
+        <h2>Términos y Condiciones de Uso</h2>
+        <p>Bienvenido a CONSULT.ME. Al registrarte y utilizar nuestra aplicación, aceptas los siguientes términos:</p>
+
+        <h3>1. Sobre las Consultas y el Pago</h3>
+        <p>El cobro por las consultas se realizará directamente durante la sesión de videollamada, a discreción del profesional. CONSULT.ME no procesa, gestiona, ni es responsable de los pagos de las consultas. El costo indicado en la aplicación es solo una referencia proporcionada por el profesional.</p>
+
+        <h3>2. Privacidad y Datos Personales</h3>
+        <p>Tu privacidad es nuestra prioridad. Todos tus datos personales, incluyendo tu correo electrónico, información de perfil y las citas agendadas, se almacenarán de forma segura. Nos comprometemos a no compartir tu información con terceros sin tu consentimiento explícito.</p>
+
+        <h3>3. Uso de la Plataforma</h3>
+        <p>El usuario se compromete a usar la plataforma de manera ética y legal. Cualquier comportamiento inapropiado o que viole la ley resultará en la suspensión o cancelación de la cuenta.</p>
+
+        <h3>4. Responsabilidad</h3>
+        <p>CONSULT.ME es una plataforma que facilita el contacto entre profesionales y usuarios. La plataforma no se hace responsable de la calidad del servicio, el diagnóstico o los resultados de las consultas. La relación y responsabilidad recaen directamente entre el usuario y el profesional.</p>
+
+        <p>Al hacer clic en "Aceptar", confirmas que has leído y entendido estos términos.</p>
+        ]]>
+    </string>
 </resources>

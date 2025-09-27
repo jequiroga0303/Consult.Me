@@ -50,7 +50,6 @@
                 android:text="Email"
                 android:layout_marginBottom="4dp"
                 android:textColor="#333333"/>
-
             <EditText
                 android:id="@+id/etEmailRegister"
                 android:layout_width="match_parent"
@@ -61,14 +60,12 @@
                 android:padding="12dp"
                 android:textColorHint="#AAAAAA"
                 android:singleLine="true"/>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Password"
                 android:layout_marginBottom="4dp"
                 android:textColor="#333333"/>
-
             <EditText
                 android:id="@+id/etPasswordRegister"
                 android:layout_width="match_parent"
@@ -76,7 +73,7 @@
                 android:hint="Value"
                 android:background="@drawable/edittext_background"
                 android:inputType="textPassword"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:padding="12dp"
                 android:textColorHint="#AAAAAA"
                 android:singleLine="true"/>
@@ -85,20 +82,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="24dp">
-
+                android:layout_marginBottom="16dp">
                 <CheckBox
                     android:id="@+id/cbTerms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-
                 <TextView
+                    android:id="@+id/tvTermsLink"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="I agree with the terms and\npolicies of CONSULT.ME"
-                    android:layout_marginStart="8dp"
-                    android:textColor="#666666"/>
+                    android:text="He leído y acepto los Términos y Condiciones (Presiona para verlas)"
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginStart="8dp"/>
             </LinearLayout>
+
+            <ScrollView
+                android:id="@+id/terms_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rounded_corners_background"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvTermsContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/terms_and_conditions"
+                    android:textColor="#333333"/>
+            </ScrollView>
 
             <Button
                 android:id="@+id/btnRegisterComplete"

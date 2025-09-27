@@ -14,6 +14,8 @@ import androidx.cardview.widget.CardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.graphics.Typeface
+import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
 
 class HomeActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
@@ -27,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
         val btnNutrition = findViewById<Button>(R.id.btn_nutrition)
         val btnPsychology = findViewById<Button>(R.id.btn_psychology)
         val btnCoaching = findViewById<Button>(R.id.btn_coaching)
-        val btnProfile = findViewById<Button>(R.id.btn_profile)
+        val btnProfile = findViewById<ImageButton>(R.id.btn_profile)
 
         btnMedicalGuidance.setOnClickListener {
             val intent = Intent(this, DoctorListActivity::class.java)
@@ -50,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         btnProfile.setOnClickListener {
-            // Lógica del perfil
+            showProfileDialog()
         }
         loadScheduledAppointments()
     }
@@ -169,5 +171,28 @@ class HomeActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error al cargar citas: ${e.message}", Toast.LENGTH_SHORT).show()
             }
+    }
+    private fun showProfileDialog() {
+        val currentUser = auth.currentUser
+        val email = currentUser?.email ?: "Correo no disponible"
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Perfil de Usuario")
+        builder.setMessage("Correo: $email")
+
+        builder.setPositiveButton("Cerrar Sesión") { dialog, which ->
+            auth.signOut()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
+
+        builder.setNegativeButton("Cancelar") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }
