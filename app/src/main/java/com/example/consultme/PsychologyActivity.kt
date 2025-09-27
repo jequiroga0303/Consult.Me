@@ -22,7 +22,7 @@ class PsychologyActivity : AppCompatActivity() {
         btnBack.setOnClickListener {
             finish()
         }
-        loadDoctors("Pyschology")
+        loadDoctors("Psychology")
 
     }
     private fun loadDoctors(category: String) {

@@ -26,15 +26,17 @@ class AppointmentDetailsActivity : AppCompatActivity() {
     private lateinit var tvDoctorStudies: TextView
     private lateinit var tvDoctorExperience: TextView
     private lateinit var tvAppointmentCost: TextView
+    private lateinit var tvDetailsDate: TextView
+    private lateinit var tvDetailsTime: TextView
     private var selectedCalendar: Calendar = Calendar.getInstance()
     private var doctorId: String = ""
     private var doctorName: String = ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_appointment_details)
 
+        // Inicializar vistas
         tvSelectedDate = findViewById(R.id.tvSelectedDate)
         tvSelectedTime = findViewById(R.id.tvSelectedTime)
         tvDoctorName = findViewById(R.id.tvDoctorName)
@@ -42,25 +44,28 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         tvDoctorStudies = findViewById(R.id.tvDoctorStudies)
         tvDoctorExperience = findViewById(R.id.tvDoctorExperience)
         tvAppointmentCost = findViewById(R.id.tvAppointmentCost)
+        tvDetailsDate = findViewById(R.id.tvDetailsDate)
+        tvDetailsTime = findViewById(R.id.tvDetailsTime)
 
         doctorId = intent.getStringExtra("doctorId") ?: ""
 
-        // Llenar la información del doctor desde Firestore
+        // Cargar los detalles del doctor desde Firestore
         loadDoctorDetails()
         updateSummaryDetails()
 
-        // Configurar la selección de fecha y hora
+        val btnBack = findViewById<ImageButton>(R.id.btnBackFromDetails)
+        btnBack.setOnClickListener { finish() }
+
         tvSelectedDate.setOnClickListener { showDatePickerDialog() }
         tvSelectedTime.setOnClickListener { showTimePickerDialog() }
 
-        // ... Lógica para agendar la cita
         val btnSchedule = findViewById<Button>(R.id.btnSchedule)
         btnSchedule.setOnClickListener {
             if (auth.currentUser != null) {
                 val appointment = hashMapOf(
                     "userId" to auth.currentUser!!.uid,
                     "doctorId" to doctorId,
-                    "doctorName" to doctorName, // Se usa la variable global
+                    "doctorName" to doctorName,
                     "date" to SimpleDateFormat("dd 'de' MMMM 'del' yyyy", Locale("es", "MX")).format(selectedCalendar.time),
                     "time" to SimpleDateFormat("hh:mm a", Locale.US).format(selectedCalendar.time),
                     "timestamp" to selectedCalendar.time
@@ -81,18 +86,19 @@ class AppointmentDetailsActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun loadDoctorDetails() {
         if (doctorId.isNotEmpty()) {
             db.collection("doctors").document(doctorId).get()
                 .addOnSuccessListener { document ->
                     val doctor = document.toObject(Doctor::class.java)
                     if (doctor != null) {
-                        doctorName = doctor.name // Guardar el nombre en la variable global
+                        doctorName = doctor.name
                         tvDoctorName.text = doctor.name
                         tvDoctorSpecialty.text = doctor.specialty
                         tvDoctorStudies.text = doctor.studies
                         tvDoctorExperience.text = doctor.experience
-                        tvAppointmentCost.text = "Cobro por cita: ${doctor.costoConsulta}"
+                        tvAppointmentCost.text = "- Cobro por cita: ${doctor.costoConsulta}"
                     }
                 }
         }
@@ -104,6 +110,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
             selectedCalendar.set(Calendar.MONTH, monthOfYear)
             selectedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateDateLabel()
+            updateSummaryDetails() // Actualizar los detalles de la consulta
         }
         DatePickerDialog(this, dateSetListener,
             selectedCalendar.get(Calendar.YEAR),
@@ -116,6 +123,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
             selectedCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
             selectedCalendar.set(Calendar.MINUTE, minute)
             updateTimeLabel()
+            updateSummaryDetails() // Actualizar los detalles de la consulta
         }
         TimePickerDialog(this, timeSetListener,
             selectedCalendar.get(Calendar.HOUR_OF_DAY),
@@ -134,13 +142,8 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         tvSelectedTime.text = sdf.format(selectedCalendar.time)
     }
     private fun updateSummaryDetails() {
-        // Actualizar los TextViews de la sección "Detalles de la consulta"
-        val tvDetailsDate = findViewById<TextView>(R.id.tvDetailsDate)
-        val tvDetailsTime = findViewById<TextView>(R.id.tvDetailsTime)
-
         val dateFormat = SimpleDateFormat("dd 'de' MMMM 'del' yyyy", Locale("es", "MX"))
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.US)
-
         tvDetailsDate.text = "- Fecha: ${dateFormat.format(selectedCalendar.time)}"
         tvDetailsTime.text = "- Hora: ${timeFormat.format(selectedCalendar.time)} (Duración máx.: 45 min)"
     }

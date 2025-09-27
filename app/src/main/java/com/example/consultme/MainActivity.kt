@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
 
         val btnSignIn = findViewById<Button>(R.id.btnSignIn)
         val btnRegister = findViewById<Button>(R.id.btnRegister)
-        val tvForgotPassword = findViewById<TextView>(R.id.tvForgotPassword)
         val etEmail = findViewById<EditText>(R.id.etEmail)
         val etPassword = findViewById<EditText>(R.id.etPassword)
 
@@ -49,7 +48,5 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvForgotPassword.setOnClickListener {
-        }
     }
 }
