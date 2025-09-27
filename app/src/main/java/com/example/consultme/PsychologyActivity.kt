@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
+import android.view.LayoutInflater
 class PsychologyActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,7 @@ class PsychologyActivity : AppCompatActivity() {
     }
     private fun loadDoctors(category: String) {
         val doctorsContainer = findViewById<LinearLayout>(R.id.doctors_container)
-        doctorsContainer.removeAllViews() // Limpia los datos existentes
+        doctorsContainer.removeAllViews()
 
         db.collection("doctors")
             .whereEqualTo("category", category)
@@ -34,22 +35,29 @@ class PsychologyActivity : AppCompatActivity() {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val doctor = document.toObject(Doctor::class.java)
-                    // Inflar un nuevo CardView y llenarlo con los datos del doctor
-                    // Aquí necesitarás crear un layout dinámico o duplicar un CardView existente
-                    // en tu XML para cada doctor.
-                    // Por simplicidad, este ejemplo solo muestra un mensaje
-                    val tvDoctorName = TextView(this).apply { text = doctor.name }
-                    doctorsContainer.addView(tvDoctorName)
-                    // ... Agrega más views para specialty, etc.
-                    // Agrega un botón de "Agendar" con un OnClickListener que pase los datos del doctor
-                    val btnSchedule = Button(this).apply { text = "Agendar" }
+
+                    // 1. Inflar el layout de la tarjeta
+                    val doctorCardView = LayoutInflater.from(this)
+                        .inflate(R.layout.doctor_card_item, doctorsContainer, false)
+
+                    // 2. Encontrar las vistas dentro de la tarjeta
+                    val tvDoctorName = doctorCardView.findViewById<TextView>(R.id.doctor_name)
+                    val tvDoctorSpecialty = doctorCardView.findViewById<TextView>(R.id.doctor_specialty)
+                    val btnSchedule = doctorCardView.findViewById<Button>(R.id.btnSchedule)
+
+                    // 3. Llenar los datos de la tarjeta con la información de Firestore
+                    tvDoctorName.text = doctor.name
+                    tvDoctorSpecialty.text = doctor.specialty
+
+                    // 4. Configurar el botón de agendar
                     btnSchedule.setOnClickListener {
-                        val intent = Intent(this@PsychologyActivity, AppointmentDetailsActivity::class.java)
+                        val intent = Intent(this, AppointmentDetailsActivity::class.java)
                         intent.putExtra("doctorId", document.id)
-                        intent.putExtra("doctorName", doctor.name)
                         startActivity(intent)
                     }
-                    doctorsContainer.addView(btnSchedule)
+
+                    // 5. Agregar la tarjeta al contenedor
+                    doctorsContainer.addView(doctorCardView)
                 }
             }
             .addOnFailureListener {

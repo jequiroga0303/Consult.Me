@@ -5,5 +5,7 @@ data class Doctor(
     val specialty: String = "",
     val studies: String = "",
     val experience: String = "",
-    val category: String = ""
+    val category: String = "",
+    val videoCallUrl: String = "",
+    val costoConsulta: String = ""
 )
