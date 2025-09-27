@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.net.Uri
+import android.widget.Toast
 
 class HomeActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
@@ -63,6 +64,7 @@ class HomeActivity : AppCompatActivity() {
 
         db.collection("appointments")
             .whereEqualTo("userId", userId)
+            .orderBy("timestamp") // Ordenar por fecha para ver las citas cronológicamente
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
@@ -74,19 +76,18 @@ class HomeActivity : AppCompatActivity() {
                     consultationsContainer.addView(noAppointmentsText)
                 } else {
                     for (document in documents) {
-                        val doctorId = document.getString("doctorId")
-                        val doctorName = document.getString("doctorName")
+                        val doctorId = document.getString("doctorId") ?: continue
                         val date = document.getString("date")
                         val time = document.getString("time")
 
-                        // Crea un contenedor para la cita y el botón
-                        val appointmentLayout = LinearLayout(this).apply {
-                            orientation = LinearLayout.HORIZONTAL
-                            setPadding(16, 16, 16, 16)
-                        }
+                        // Ahora, hacemos una nueva consulta para obtener el nombre y la URL del doctor
+                        db.collection("doctors").document(doctorId).get()
+                            .addOnSuccessListener { doctorDocument ->
+                                val doctorName = doctorDocument.getString("name")
+                                val videoCallUrl = doctorDocument.getString("videoCallUrl")
 
-                        val appointmentText = TextView(this).apply {
-                            text = "Cita con $doctorName el $date a las $time"
+                                val appointmentText = TextView(this).apply {
+                                    text = "Cita con $doctorName el $date a las $time"
                             setTextColor(resources.getColor(R.color.black, null))
                             layoutParams = LinearLayout.LayoutParams(
                                 0,
@@ -94,41 +95,30 @@ class HomeActivity : AppCompatActivity() {
                                 1.0f
                             )
                         }
-
-                        // Botón para unirse a la videollamada
-                        val joinButton = Button(this).apply {
-                            text = "Unirse"
-                        }
-
-                        // Agrega el texto y el botón al layout de la cita
-                        appointmentLayout.addView(appointmentText)
-                        appointmentLayout.addView(joinButton)
-
-                        // Obtener la URL de la videollamada y configurar el botón
-                        if (doctorId != null) {
-                            db.collection("doctors").document(doctorId).get()
-                                .addOnSuccessListener { doctorDocument ->
-                                    val doctor = doctorDocument.toObject(Doctor::class.java)
-                                    val videoCallUrl = doctor?.videoCallUrl
-
-                                    if (!videoCallUrl.isNullOrEmpty()) {
-                                        joinButton.setOnClickListener {
-                                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(videoCallUrl))
-                                            startActivity(browserIntent)
+                                val joinButton = Button(this).apply {
+                                    text = "Unirse"
+                                    setOnClickListener {
+                                        if (videoCallUrl != null && videoCallUrl.isNotEmpty()) {
+                                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoCallUrl))
+                                            startActivity(intent)
+                                        } else {
+                                            Toast.makeText(this@HomeActivity, "URL de videollamada no disponible.", Toast.LENGTH_SHORT).show()
                                         }
-                                    } else {
-                                        joinButton.isEnabled = false
-                                        joinButton.text = "No hay URL"
                                     }
                                 }
-                        }
-
-                        consultationsContainer.addView(appointmentLayout)
+                                val appointmentLayout = LinearLayout(this).apply {
+                                    orientation = LinearLayout.HORIZONTAL
+                                    addView(appointmentText)
+                                    addView(joinButton)
+                                }
+                                consultationsContainer.addView(appointmentLayout)
+                            }
                     }
                 }
             }
             .addOnFailureListener { e ->
                 // Manejar error
+                Toast.makeText(this, "Error al cargar citas: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }

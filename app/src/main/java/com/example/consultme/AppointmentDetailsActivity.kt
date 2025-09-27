@@ -21,7 +21,15 @@ class AppointmentDetailsActivity : AppCompatActivity() {
     private val auth = FirebaseAuth.getInstance()
     private lateinit var tvSelectedDate: TextView
     private lateinit var tvSelectedTime: TextView
-    private lateinit var selectedCalendar: Calendar
+    private lateinit var tvDoctorName: TextView
+    private lateinit var tvDoctorSpecialty: TextView
+    private lateinit var tvDoctorStudies: TextView
+    private lateinit var tvDoctorExperience: TextView
+    private lateinit var tvAppointmentCost: TextView
+    private var selectedCalendar: Calendar = Calendar.getInstance()
+    private var doctorId: String = ""
+    private var doctorName: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +37,17 @@ class AppointmentDetailsActivity : AppCompatActivity() {
 
         tvSelectedDate = findViewById(R.id.tvSelectedDate)
         tvSelectedTime = findViewById(R.id.tvSelectedTime)
-        selectedCalendar = Calendar.getInstance()
+        tvDoctorName = findViewById(R.id.tvDoctorName)
+        tvDoctorSpecialty = findViewById(R.id.tvDoctorSpecialty)
+        tvDoctorStudies = findViewById(R.id.tvDoctorStudies)
+        tvDoctorExperience = findViewById(R.id.tvDoctorExperience)
+        tvAppointmentCost = findViewById(R.id.tvAppointmentCost)
 
-        val doctorId = intent.getStringExtra("doctorId") ?: ""
+        doctorId = intent.getStringExtra("doctorId") ?: ""
 
         // Llenar la información del doctor desde Firestore
-        loadDoctorDetails(doctorId)
+        loadDoctorDetails()
+        updateSummaryDetails()
 
         // Configurar la selección de fecha y hora
         tvSelectedDate.setOnClickListener { showDatePickerDialog() }
@@ -43,14 +56,14 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         // ... Lógica para agendar la cita
         val btnSchedule = findViewById<Button>(R.id.btnSchedule)
         btnSchedule.setOnClickListener {
-            // Lógica para guardar la cita en Firestore
-            if (auth.currentUser != null && doctorId.isNotEmpty()) {
+            if (auth.currentUser != null) {
                 val appointment = hashMapOf(
                     "userId" to auth.currentUser!!.uid,
                     "doctorId" to doctorId,
+                    "doctorName" to doctorName, // Se usa la variable global
                     "date" to SimpleDateFormat("dd 'de' MMMM 'del' yyyy", Locale("es", "MX")).format(selectedCalendar.time),
                     "time" to SimpleDateFormat("hh:mm a", Locale.US).format(selectedCalendar.time),
-                    "timestamp" to selectedCalendar.time,
+                    "timestamp" to selectedCalendar.time
                 )
                 db.collection("appointments")
                     .add(appointment)
@@ -68,20 +81,21 @@ class AppointmentDetailsActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun loadDoctorDetails(doctorId: String) {
-        db.collection("doctors").document(doctorId).get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
+    private fun loadDoctorDetails() {
+        if (doctorId.isNotEmpty()) {
+            db.collection("doctors").document(doctorId).get()
+                .addOnSuccessListener { document ->
                     val doctor = document.toObject(Doctor::class.java)
                     if (doctor != null) {
-                        findViewById<TextView>(R.id.tvDoctorName).text = doctor.name
-                        findViewById<TextView>(R.id.tvDoctorSpecialty).text = doctor.specialty
-                        findViewById<TextView>(R.id.tvDoctorStudies).text = doctor.studies
-                        findViewById<TextView>(R.id.tvDoctorExperience).text = doctor.experience
+                        doctorName = doctor.name // Guardar el nombre en la variable global
+                        tvDoctorName.text = doctor.name
+                        tvDoctorSpecialty.text = doctor.specialty
+                        tvDoctorStudies.text = doctor.studies
+                        tvDoctorExperience.text = doctor.experience
+                        tvAppointmentCost.text = "Cobro por cita: ${doctor.costoConsulta}"
                     }
                 }
-            }
+        }
     }
 
     private fun showDatePickerDialog() {
@@ -118,5 +132,16 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         val format = "hh:mm a"
         val sdf = SimpleDateFormat(format, Locale.US)
         tvSelectedTime.text = sdf.format(selectedCalendar.time)
+    }
+    private fun updateSummaryDetails() {
+        // Actualizar los TextViews de la sección "Detalles de la consulta"
+        val tvDetailsDate = findViewById<TextView>(R.id.tvDetailsDate)
+        val tvDetailsTime = findViewById<TextView>(R.id.tvDetailsTime)
+
+        val dateFormat = SimpleDateFormat("dd 'de' MMMM 'del' yyyy", Locale("es", "MX"))
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.US)
+
+        tvDetailsDate.text = "- Fecha: ${dateFormat.format(selectedCalendar.time)}"
+        tvDetailsTime.text = "- Hora: ${timeFormat.format(selectedCalendar.time)} (Duración máx.: 45 min)"
     }
 }

@@ -115,56 +115,16 @@
             android:id="@+id/tvSelectedDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="April 2025 >"
+            android:text="Presiona para seleccionar la fecha"
             android:gravity="center"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"/>
-
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="7"
-            android:rowCount="5"
-            android:layout_marginBottom="16dp"
-            android:gravity="center">
-
-            <TextView style="@style/CalendarDayHeader" android:text="SUN"/>
-            <TextView style="@style/CalendarDayHeader" android:text="MON"/>
-            <TextView style="@style/CalendarDayHeader" android:text="TUE"/>
-            <TextView style="@style/CalendarDayHeader" android:text="WED"/>
-            <TextView style="@style/CalendarDayHeader" android:text="THU"/>
-            <TextView style="@style/CalendarDayHeader" android:text="FRI"/>
-            <TextView style="@style/CalendarDayHeader" android:text="SAT"/>
-
-            <TextView style="@style/CalendarDay" android:text="1" />
-            <TextView style="@style/CalendarDay" android:text="2" />
-            <TextView style="@style/CalendarDay" android:text="3" />
-            <TextView style="@style/CalendarDay" android:text="4" />
-            <TextView style="@style/CalendarDay" android:text="5" />
-            <TextView style="@style/CalendarDay" android:text="6" />
-            <TextView style="@style/CalendarDay" android:text="7" />
-            <TextView style="@style/CalendarDay" android:text="8" />
-            <TextView style="@style/CalendarDay" android:text="9" />
-            <TextView style="@style/CalendarDay" android:text="10" />
-            <TextView style="@style/CalendarDay" android:text="11" />
-            <TextView style="@style/CalendarDay" android:text="12" />
-            <TextView style="@style/CalendarDay" android:text="13" />
-            <TextView style="@style/CalendarDay" android:text="14" />
-            <TextView style="@style/CalendarDay" android:text="15" />
-            <TextView style="@style/CalendarDay" android:text="16" />
-            <TextView style="@style/CalendarDay" android:text="17" />
-            <TextView style="@style/CalendarDay" android:text="18" />
-            <TextView style="@style/CalendarDay" android:text="19" />
-            <TextView style="@style/CalendarDay" android:text="20"
-                android:background="@drawable/rounded_button_accent"
-                android:textColor="@android:color/white" />
-        </GridLayout>
 
         <TextView
             android:id="@+id/tvSelectedTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="9:40 AM"
+            android:text="Presiona para seleccionar la hora"
             android:textSize="18sp"
             android:textStyle="bold"
             android:background="@drawable/rounded_corners_background"
@@ -192,9 +152,30 @@
             android:layout_marginBottom="8dp"/>
 
         <TextView
+            android:id="@+id/tvDetailsDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="- Fecha: 20 de Abril del 2025\n- Hora: 9:40 am (Duración máx.: 45 min)\n- Consultorio: Zoom\n- Cobro por cita: 200 PESOS MEXICANOS (se cobra en la cita)"
+            android:text="- Fecha: 20 de Abril del 2025"
+            android:textColor="#666666" />
+
+        <TextView
+            android:id="@+id/tvDetailsTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Hora: 9:40 am (Duración máx.: 45 min)"
+            android:textColor="#666666" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Consultorio: Zoom"
+            android:textColor="#666666" />
+
+        <TextView
+            android:id="@+id/tvAppointmentCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Cobro por cita: 200 PESOS MEXICANOS"
             android:textColor="#666666"
             android:layout_marginBottom="16dp"/>
 
