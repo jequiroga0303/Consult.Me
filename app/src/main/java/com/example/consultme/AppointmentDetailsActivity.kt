@@ -1,3 +1,5 @@
+// Archivo: app/src/main/java/com/example/consultme/AppointmentDetailsActivity.kt
+
 package com.example.consultme
 
 import android.app.DatePickerDialog
@@ -62,24 +64,54 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         val btnSchedule = findViewById<Button>(R.id.btnSchedule)
         btnSchedule.setOnClickListener {
             if (auth.currentUser != null) {
-                val appointment = hashMapOf(
-                    "userId" to auth.currentUser!!.uid,
-                    "doctorId" to doctorId,
-                    "doctorName" to doctorName,
-                    "date" to SimpleDateFormat("dd 'de' MMMM 'del' yyyy", Locale("es", "MX")).format(selectedCalendar.time),
-                    "time" to SimpleDateFormat("hh:mm a", Locale.US).format(selectedCalendar.time),
-                    "timestamp" to selectedCalendar.time
-                )
+                // Obtener la fecha y hora seleccionada como un objeto Date
+                val selectedDateTime = selectedCalendar.time
+
+                // Definir un rango de 45 minutos antes y después de la nueva cita para el chequeo
+                val checkStart = Calendar.getInstance().apply {
+                    time = selectedDateTime
+                    add(Calendar.MINUTE, -44)
+                }.time
+                val checkEnd = Calendar.getInstance().apply {
+                    time = selectedDateTime
+                    add(Calendar.MINUTE, 44)
+                }.time
+
+                // Consultar citas existentes para el doctor en ese rango de tiempo
                 db.collection("appointments")
-                    .add(appointment)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Cita agendada exitosamente!", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, HomeActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
+                    .whereEqualTo("doctorId", doctorId)
+                    .whereGreaterThanOrEqualTo("timestamp", checkStart)
+                    .whereLessThanOrEqualTo("timestamp", checkEnd)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (documents.isEmpty) {
+                            // No hay citas que se traslapen, agendar la nueva
+                            val appointment = hashMapOf(
+                                "userId" to auth.currentUser!!.uid,
+                                "doctorId" to doctorId,
+                                "doctorName" to doctorName,
+                                "date" to SimpleDateFormat("dd 'de' MMMM 'del' yyyy", Locale("es", "MX")).format(selectedDateTime),
+                                "time" to SimpleDateFormat("hh:mm a", Locale.US).format(selectedDateTime),
+                                "timestamp" to selectedDateTime
+                            )
+                            db.collection("appointments")
+                                .add(appointment)
+                                .addOnSuccessListener {
+                                    Toast.makeText(this, "Cita agendada exitosamente!", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(this, HomeActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    startActivity(intent)
+                                }
+                                .addOnFailureListener { e ->
+                                    Toast.makeText(this, "Error al agendar cita: ${e.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        } else {
+                            // Ya existe una cita en ese rango, mostrar un error
+                            Toast.makeText(this, "Horario no disponible. Por favor, selecciona otra hora.", Toast.LENGTH_LONG).show()
+                        }
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error al agendar cita: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Error al verificar la disponibilidad: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
             } else {
                 Toast.makeText(this, "Inicia sesión para agendar una cita.", Toast.LENGTH_SHORT).show()
@@ -110,7 +142,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
             selectedCalendar.set(Calendar.MONTH, monthOfYear)
             selectedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateDateLabel()
-            updateSummaryDetails() // Actualizar los detalles de la consulta
+            updateSummaryDetails()
         }
         DatePickerDialog(this, dateSetListener,
             selectedCalendar.get(Calendar.YEAR),
@@ -123,7 +155,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
             selectedCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
             selectedCalendar.set(Calendar.MINUTE, minute)
             updateTimeLabel()
-            updateSummaryDetails() // Actualizar los detalles de la consulta
+            updateSummaryDetails()
         }
         TimePickerDialog(this, timeSetListener,
             selectedCalendar.get(Calendar.HOUR_OF_DAY),

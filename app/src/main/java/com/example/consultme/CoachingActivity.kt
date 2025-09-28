@@ -9,28 +9,53 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
 import android.view.LayoutInflater
+import android.widget.SearchView
 
 class CoachingActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var searchView: SearchView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coaching)
 
         // Referencia al botón de regreso
         val btnBack = findViewById<ImageButton>(R.id.btnBackFromDoctorList)
+
         // Lógica para el botón de regreso: vuelve a la pantalla de inicio
         btnBack.setOnClickListener {
             finish()
         }
-        loadDoctors("Coaching")
+
+        searchView = findViewById(R.id.svDoctorSearch)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                loadDoctors("Coaching", query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                loadDoctors("Coaching", newText)
+                return false
+            }
+        })
+
+        loadDoctors("Coaching", null)
+
     }
-    private fun loadDoctors(category: String) {
+    private fun loadDoctors(category: String, searchQuery: String?) {
         val doctorsContainer = findViewById<LinearLayout>(R.id.doctors_container)
         doctorsContainer.removeAllViews()
 
-        db.collection("doctors")
+        var query = db.collection("doctors")
             .whereEqualTo("category", category)
-            .get()
+
+        if (!searchQuery.isNullOrEmpty()) {
+            query = query
+                .whereGreaterThanOrEqualTo("name", searchQuery)
+                .whereLessThanOrEqualTo("name", searchQuery + "\uf8ff")
+        }
+
+        query.get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val doctor = document.toObject(Doctor::class.java)
@@ -63,5 +88,4 @@ class CoachingActivity : AppCompatActivity() {
                 // Manejar error
             }
     }
-
 }

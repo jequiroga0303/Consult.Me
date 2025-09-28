@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import android.graphics.Typeface
 import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
+import java.util.Date
 
 class HomeActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
@@ -76,8 +77,13 @@ class HomeActivity : AppCompatActivity() {
             return
         }
 
+        // Obtener la fecha y hora actual para filtrar las citas pasadas
+        val now = Date()
+
         db.collection("appointments")
             .whereEqualTo("userId", userId)
+            // Añadir el filtro para mostrar solo citas a partir de la fecha y hora actuales
+            .whereGreaterThanOrEqualTo("timestamp", now)
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
@@ -101,6 +107,16 @@ class HomeActivity : AppCompatActivity() {
                             .addOnSuccessListener { doctorDocument ->
                                 val doctorName = doctorDocument.getString("name") ?: "Doctor no disponible"
                                 val videoCallUrl = doctorDocument.getString("videoCallUrl")
+                                val doctorCategory = doctorDocument.getString("category") ?: "Categoría no disponible"
+
+                                // Mapear la categoría en inglés a su versión en español
+                                val translatedCategory = when (doctorCategory) {
+                                    "Guianza Médica" -> "Guianza Médica"
+                                    "Nutrition" -> "Nutrición"
+                                    "Psychology" -> "Psicología"
+                                    "Coaching" -> "Coaching"
+                                    else -> "Categoría no disponible"
+                                }
 
                                 val cardView = CardView(this).apply {
                                     layoutParams = LinearLayout.LayoutParams(
@@ -136,7 +152,7 @@ class HomeActivity : AppCompatActivity() {
                                     typeface = Typeface.create(typeface, Typeface.BOLD)
                                 }
                                 val tvAppointmentDetails = TextView(this).apply {
-                                    text = "Fecha: $date\nHora: $time"
+                                    text = "Categoría: $translatedCategory\nFecha: $date\nHora: $time"
                                     textSize = 14f
                                 }
                                 textLayout.addView(tvAppointmentTitle)

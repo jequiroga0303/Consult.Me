@@ -9,8 +9,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
 import android.view.LayoutInflater
+import android.widget.SearchView
+
 class PsychologyActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var searchView: SearchView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_psychology)
@@ -22,16 +25,37 @@ class PsychologyActivity : AppCompatActivity() {
         btnBack.setOnClickListener {
             finish()
         }
-        loadDoctors("Psychology")
+
+        searchView = findViewById(R.id.svDoctorSearch)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                loadDoctors("Psychology", query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                loadDoctors("Psychology", newText)
+                return false
+            }
+        })
+
+        loadDoctors("Psychology", null)
 
     }
-    private fun loadDoctors(category: String) {
+    private fun loadDoctors(category: String, searchQuery: String?) {
         val doctorsContainer = findViewById<LinearLayout>(R.id.doctors_container)
         doctorsContainer.removeAllViews()
 
-        db.collection("doctors")
+        var query = db.collection("doctors")
             .whereEqualTo("category", category)
-            .get()
+
+        if (!searchQuery.isNullOrEmpty()) {
+            query = query
+                .whereGreaterThanOrEqualTo("name", searchQuery)
+                .whereLessThanOrEqualTo("name", searchQuery + "\uf8ff")
+        }
+
+        query.get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val doctor = document.toObject(Doctor::class.java)

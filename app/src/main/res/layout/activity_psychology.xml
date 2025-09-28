@@ -21,6 +21,17 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"/>
 
+    <SearchView
+        android:id="@+id/svDoctorSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Buscar por nombre o especialidad"
+        android:layout_below="@id/btnBackFromDoctorList"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:iconifiedByDefault="false"
+        android:layout_centerHorizontal="true"/>
+
     <TextView
         android:id="@+id/tvCategoryTitle"
         android:layout_width="wrap_content"
@@ -29,7 +40,7 @@
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="#333333"
-        android:layout_below="@id/btnBackFromDoctorList"
+        android:layout_below="@id/svDoctorSearch"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp" />
