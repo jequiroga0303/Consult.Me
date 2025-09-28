@@ -1,6 +1,7 @@
 package com.example.consultme
 
 data class Doctor(
+    var id: String = "",
     val name: String = "",
     val specialty: String = "",
     val studies: String = "",

@@ -14,14 +14,13 @@ import android.widget.SearchView
 class PsychologyActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var searchView: SearchView
+    private var allDoctors = mutableListOf<Doctor>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_psychology)
 
-        // Referencia al botón de regreso
         val btnBack = findViewById<ImageButton>(R.id.btnBackFromDoctorList)
-
-        // Lógica para el botón de regreso: vuelve a la pantalla de inicio
         btnBack.setOnClickListener {
             finish()
         }
@@ -29,63 +28,85 @@ class PsychologyActivity : AppCompatActivity() {
         searchView = findViewById(R.id.svDoctorSearch)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                loadDoctors("Psychology", query)
+                filterDoctors(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                loadDoctors("Psychology", newText)
+                filterDoctors(newText)
                 return false
             }
         })
 
-        loadDoctors("Psychology", null)
-
+        // Cargar todos los doctores inicialmente y guardar la lista
+        loadAllDoctors("Psychology")
     }
-    private fun loadDoctors(category: String, searchQuery: String?) {
-        val doctorsContainer = findViewById<LinearLayout>(R.id.doctors_container)
-        doctorsContainer.removeAllViews()
 
-        var query = db.collection("doctors")
+    private fun loadAllDoctors(category: String) {
+        db.collection("doctors")
             .whereEqualTo("category", category)
-
-        if (!searchQuery.isNullOrEmpty()) {
-            query = query
-                .whereGreaterThanOrEqualTo("name", searchQuery)
-                .whereLessThanOrEqualTo("name", searchQuery + "\uf8ff")
-        }
-
-        query.get()
+            .get()
             .addOnSuccessListener { documents ->
+                allDoctors.clear()
                 for (document in documents) {
-                    val doctor = document.toObject(Doctor::class.java)
-
-                    // 1. Inflar el layout de la tarjeta
-                    val doctorCardView = LayoutInflater.from(this)
-                        .inflate(R.layout.doctor_card_item, doctorsContainer, false)
-
-                    // 2. Encontrar las vistas dentro de la tarjeta
-                    val tvDoctorName = doctorCardView.findViewById<TextView>(R.id.doctor_name)
-                    val tvDoctorSpecialty = doctorCardView.findViewById<TextView>(R.id.doctor_specialty)
-                    val btnSchedule = doctorCardView.findViewById<Button>(R.id.btnSchedule)
-
-                    // 3. Llenar los datos de la tarjeta con la información de Firestore
-                    tvDoctorName.text = doctor.name
-                    tvDoctorSpecialty.text = doctor.specialty
-
-                    // 4. Configurar el botón de agendar
-                    btnSchedule.setOnClickListener {
-                        val intent = Intent(this, AppointmentDetailsActivity::class.java)
-                        intent.putExtra("doctorId", document.id)
-                        startActivity(intent)
+                    val doctor = document.toObject(Doctor::class.java).apply {
+                        this.id = document.id
                     }
-
-                    // 5. Agregar la tarjeta al contenedor
-                    doctorsContainer.addView(doctorCardView)
+                    allDoctors.add(doctor)
                 }
+                displayDoctors(allDoctors)
             }
             .addOnFailureListener {
                 // Manejar error
             }
+    }
+
+    private fun filterDoctors(query: String?) {
+        val filteredList = if (query.isNullOrEmpty()) {
+            allDoctors
+        } else {
+            allDoctors.filter {
+                it.name.contains(query, ignoreCase = true) || it.specialty.contains(query, ignoreCase = true)
+            }
+        }
+        displayDoctors(filteredList)
+    }
+
+    private fun displayDoctors(doctors: List<Doctor>) {
+        val doctorsContainer = findViewById<LinearLayout>(R.id.doctors_container)
+        doctorsContainer.removeAllViews()
+
+        if (doctors.isEmpty()) {
+            val noResultsText = TextView(this).apply {
+                text = "No se encontraron resultados."
+                textSize = 16f
+                setTextColor(resources.getColor(R.color.black, null))
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            }
+            doctorsContainer.addView(noResultsText)
+            return
+        }
+
+        for (doctor in doctors) {
+            val doctorCardView = LayoutInflater.from(this)
+                .inflate(R.layout.doctor_card_item, doctorsContainer, false)
+
+            val tvDoctorName = doctorCardView.findViewById<TextView>(R.id.doctor_name)
+            val tvDoctorSpecialty = doctorCardView.findViewById<TextView>(R.id.doctor_specialty)
+            val btnSchedule = doctorCardView.findViewById<Button>(R.id.btnSchedule)
+
+            tvDoctorName.text = doctor.name
+            tvDoctorSpecialty.text = doctor.specialty
+
+            btnSchedule.setOnClickListener {
+                val intent = Intent(this, AppointmentDetailsActivity::class.java)
+                intent.putExtra("doctorId", doctor.id)
+                startActivity(intent)
+            }
+            doctorsContainer.addView(doctorCardView)
+        }
     }
 }
