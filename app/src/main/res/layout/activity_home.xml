@@ -64,13 +64,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/doctors"
+                android:src="@drawable/logo_consultme"
                 android:contentDescription="Banner de Consultas" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/banner_overlay" />
+                android:layout_height="match_parent"/>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
