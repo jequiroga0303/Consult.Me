@@ -24,32 +24,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CONSULT.ME"
-            android:textSize="40sp"
+            android:text="REGISTRO"
+            android:textSize="32sp"
             android:textStyle="bold"
-            android:textColor="#333333"
+            android:textColor="@color/text_dark"
             android:layout_marginBottom="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Consulting has never been easier"
-            android:textColor="#333333"
-            android:layout_marginBottom="48dp"/>
+            android:text="Crea tu cuenta"
+            android:textColor="@color/text_medium"
+            android:layout_marginBottom="32dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/rounded_corners_background"
-            android:padding="16dp">
+            android:padding="24dp"
+            android:elevation="4dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Email"
                 android:layout_marginBottom="4dp"
-                android:textColor="#333333"/>
+                android:textColor="@color/text_dark"/>
             <EditText
                 android:id="@+id/etEmailRegister"
                 android:layout_width="match_parent"
@@ -65,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text="Password"
                 android:layout_marginBottom="4dp"
-                android:textColor="#333333"/>
+                android:textColor="@color/text_dark"/>
             <EditText
                 android:id="@+id/etPasswordRegister"
                 android:layout_width="match_parent"
@@ -73,7 +74,7 @@
                 android:hint="Value"
                 android:background="@drawable/edittext_background"
                 android:inputType="textPassword"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:padding="12dp"
                 android:textColorHint="#AAAAAA"
                 android:singleLine="true"/>
@@ -82,7 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
                 <CheckBox
                     android:id="@+id/cbTerms"
                     android:layout_width="wrap_content"
@@ -92,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="He leído y acepto los Términos y Condiciones (Presiona para verlas)"
-                    android:textColor="#666666"
+                    android:textColor="@color/text_medium"
                     android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"
@@ -102,9 +104,10 @@
             <ScrollView
                 android:id="@+id/terms_scroll_view"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginBottom="16dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/rounded_corners_background"
+                android:elevation="2dp"
                 android:visibility="gone">
 
                 <TextView
@@ -113,16 +116,17 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@string/terms_and_conditions"
-                    android:textColor="#333333"/>
+                    android:textColor="@color/text_dark"/>
             </ScrollView>
 
             <Button
                 android:id="@+id/btnRegisterComplete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#333333"
+                android:backgroundTint="@color/ios_blue"
                 android:textColor="@color/white"
-                android:minHeight="48dp"
+                android:minHeight="56dp"
+                android:stateListAnimator="@null"
                 android:text="Register"/>
         </LinearLayout>
     </LinearLayout>

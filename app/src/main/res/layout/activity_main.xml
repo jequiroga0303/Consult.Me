@@ -16,16 +16,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CONSULT.ME"
-            android:textSize="40sp"
+            android:textSize="38sp"
             android:textStyle="bold"
-            android:textColor="#333333"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="@color/text_dark"
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Consulting has never been easier"
-            android:textColor="#333333"
+            android:textColor="@color/text_medium"
             android:layout_marginBottom="48dp"/>
 
         <LinearLayout
@@ -33,13 +33,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/rounded_corners_background"
-            android:padding="16dp">
+            android:padding="24dp"
+            android:elevation="4dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Email"
-                android:textColor="#333333"
+                android:textColor="@color/text_dark"
                 android:layout_marginBottom="4dp"/>
 
             <EditText
@@ -57,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Password"
-                android:textColor="#333333"
+                android:textColor="@color/text_dark"
                 android:layout_marginBottom="4dp"/>
 
             <EditText
@@ -68,7 +69,7 @@
                 android:padding="12dp"
                 android:background="@drawable/edittext_background"
                 android:inputType="textPassword"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="32dp"
                 android:textColorHint="#AAAAAA"
                 android:singleLine="true"/>
 
@@ -77,9 +78,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sign In"
-                android:backgroundTint="#333333"
+                android:backgroundTint="@color/ios_blue"
                 android:textColor="@color/white"
-                android:minHeight="48dp"
+                android:minHeight="56dp"
+                android:stateListAnimator="@null"
                 android:layout_marginBottom="16dp"/>
         </LinearLayout>
 
@@ -88,7 +90,7 @@
             android:layout_height="wrap_content"
             android:text="OR"
             android:gravity="center"
-            android:textColor="#333333"
+            android:textColor="@color/text_medium"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"/>
         <LinearLayout
@@ -96,15 +98,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/rounded_corners_background"
-            android:padding="16dp">
+            android:padding="24dp"
+            android:elevation="4dp">
 
             <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#333333"
+                android:backgroundTint="@color/text_dark"
                 android:textColor="@color/white"
-                android:minHeight="48dp"
+                android:minHeight="56dp"
+                android:stateListAnimator="@null"
                 android:text="Register">
             </Button>
         </LinearLayout>
@@ -118,6 +122,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
         android:text="¿Quieres convertirte en colaborador? Contactanos en consultme@gmail.com"
-        android:textColor="#333333"
+        android:textColor="@color/text_medium"
         android:textSize="14sp" />
 </RelativeLayout>

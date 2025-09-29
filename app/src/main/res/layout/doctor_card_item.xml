@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp">
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/white">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/doctor_photo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/ic_profile_placeholder"
             android:contentDescription="Foto del doctor"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/ios_blue"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -23,6 +29,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_gravity="center_vertical">
 
             <TextView
@@ -30,17 +37,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nombre del Doctor"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
-                android:textColor="#333333"/>
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/doctor_specialty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Especialidad del doctor"
-                android:textColor="#666666"
-                android:layout_marginTop="4dp"/>
+                android:textColor="@color/text_medium"
+                android:layout_marginTop="2dp"/>
         </LinearLayout>
 
         <Button
@@ -48,9 +55,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Agendar"
-            android:backgroundTint="#AECBCF"
-            android:textColor="#333333"
+            android:backgroundTint="@color/ios_blue"
+            android:textColor="@color/white"
+            android:minHeight="40dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"/>
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:stateListAnimator="@null"
+            android:textSize="14sp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/radial_gradient_background"
-    android:paddingStart="32dp"
-    android:paddingEnd="32dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
     android:paddingTop="32dp"
     android:paddingBottom="16dp"
     tools:context=".NutritionActivity">
@@ -20,40 +20,43 @@
         android:padding="8dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"/>
-    <SearchView
-        android:id="@+id/svDoctorSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="Buscar por nombre o especialidad"
-        android:layout_below="@id/btnBackFromDoctorList"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:iconifiedByDefault="false"
-        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/tvCategoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nutrición"
-        android:textSize="28sp"
+        android:textSize="34sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_below="@id/svDoctorSearch"
-        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:layout_below="@id/btnBackFromDoctorList"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp" />
+
+    <SearchView
+        android:id="@+id/svDoctorSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Buscar nutriólogo o especialidad"
+        android:layout_below="@id/tvCategoryTitle"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:iconifiedByDefault="false"
+        android:background="@drawable/rounded_corners_background"
+        android:elevation="1dp"
+        android:queryBackground="@android:color/transparent"/>
 
     <TextView
         android:id="@+id/tvDoctorsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nutriólogos:"
+        android:text="Nutriólogos Disponibles:"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_below="@id/tvCategoryTitle"
-        android:layout_marginBottom="8dp"/>
+        android:textColor="@color/text_dark"
+        android:layout_below="@id/svDoctorSearch"
+        android:layout_marginBottom="12dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
